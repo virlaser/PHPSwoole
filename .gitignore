@@ -4,3 +4,6 @@
 
 # redis 缓存文件
 dump.rdb
+
+# 项目无关文件
+project/
