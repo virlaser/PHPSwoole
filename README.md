@@ -14,6 +14,13 @@
 * Swoole task 任务使用
 
 ## 异步非阻塞 IO 场景
+* Swoole 毫秒定时器
+* 异步文件 IO 系统
+* 异步 MySQL
+* 异步 Redis - Redis 以及 hiredis 安装
+* 异步 Redis
+
+## 进程 内存 协程
 * （待续）
 
 

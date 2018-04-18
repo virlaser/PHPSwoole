@@ -1,3 +1,6 @@
 
 .DS_Store
 .idea/
+
+# redis 缓存文件
+dump.rdb
