@@ -12,16 +12,64 @@ $http = new swoole_http_server("0.0.0.0", 8811);
 $http->set(
     [
         'enable_static_handler' => true,
-        'document_root' => "/Users/vlaser/Desktop/PHPSoolw/thinkphp/public/static"
+        'document_root' => "/Users/vlaser/Desktop/PHPSoolw/thinkphp/public/static",
+        'worker_num' => 5,
     ]
 );
 
-$http->on('request', function($request, $response) {
-    // 在终端输出传入参数
-    // print_r($request->get);
-    // $response->cookie("singwa", "xss", time()+1800);
-    // 在浏览器输出
-    // $response->end("<h1>HTTPServer</h1>".json_encode($request->get));
+$http->on('WorkerStart', function (swoole_server $server, $worker_id) {
+    // 定义应用目录
+    define('APP_PATH', __DIR__.'/../application/');
+    // 加载框架文件
+    require __DIR__.'/../thinkphp/base.php';
+});
+
+$http->on('request', function($request, $response) use($http) {
+
+    // 转换为 thinkphp 需要的变量
+    if(isset($request->server)) {
+        foreach ($request->server as $k => $v) {
+            $_SERVER[strtoupper($k)] = $v;
+        }
+    }
+    if(isset($request->header)) {
+        foreach ($request->header as $k => $v) {
+            $_SERVER[strtoupper($k)] = $v;
+        }
+    }
+    // 在 swoole 中超级全局变量不会被释放
+//    if(!empty($_GET)) {
+//        unset($_GET);
+//    }
+    if(isset($request->get)) {
+        foreach ($request->get as $k => $v) {
+            $_GET[$k] = $v;
+        }
+    }
+    if(isset($request->post)) {
+        foreach ($request->post as $k => $v) {
+            $_POST[$k] = $v;
+        }
+    }
+
+    ob_start();
+    try {
+        // 执行应用并响应
+        think\Container::get('app', [APP_PATH])
+            ->run()
+            ->send();
+    }catch(\Exception $e) {
+        // todo
+    }
+
+    $res = ob_get_contents();
+    ob_end_clean();
+    $response->end($res);
+
+    // 清除缓存
+    // http://127.0.0.1:8811/?s=index/index/index
+    // todo 终端会报错
+    $http->close();
 });
 
 $http->start();
