@@ -27,25 +27,32 @@ $http->on('WorkerStart', function (swoole_server $server, $worker_id) {
 $http->on('request', function($request, $response) use($http) {
 
     // 转换为 thinkphp 需要的变量
+    // 直接赋为空，避免缓存问题
+    $_SERVER = [];
     if(isset($request->server)) {
         foreach ($request->server as $k => $v) {
             $_SERVER[strtoupper($k)] = $v;
         }
     }
+
     if(isset($request->header)) {
         foreach ($request->header as $k => $v) {
             $_SERVER[strtoupper($k)] = $v;
         }
     }
+
     // 在 swoole 中超级全局变量不会被释放
 //    if(!empty($_GET)) {
 //        unset($_GET);
 //    }
+    $_GET = [];
     if(isset($request->get)) {
         foreach ($request->get as $k => $v) {
             $_GET[$k] = $v;
         }
     }
+
+    $_POST = [];
     if(isset($request->post)) {
         foreach ($request->post as $k => $v) {
             $_POST[$k] = $v;
@@ -69,7 +76,7 @@ $http->on('request', function($request, $response) use($http) {
     // 清除缓存
     // http://127.0.0.1:8811/?s=index/index/index
     // todo 终端会报错
-    $http->close();
+    // $http->close();
 });
 
 $http->start();
