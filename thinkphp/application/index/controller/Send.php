@@ -28,6 +28,17 @@ class Send
         $code = rand(1000, 9999);
 
         // 没有申请阿里平台的短信接入，因此注释掉下面的信息
+        // 此逻辑应该放在 swoole 异步任务里面
+
+        $taskData = [
+            // 工厂模式，选择执行的任务
+            'method' => 'sendSms',
+            'data' => [
+                'phone' => $phoneNum,
+                'code' => $code,
+            ]
+        ];
+        $_POST['http_server']->task($taskData);
 
 //        try {
 //            $response = Sms::sendSms($phoneNum, $code);

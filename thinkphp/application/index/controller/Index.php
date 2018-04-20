@@ -6,8 +6,9 @@ class Index
 {
     public function index()
     {
-        print_r($_GET);
-        echo 'vlaser-hello';
+        // print_r($_GET);
+        // echo 'vlaser-hello';
+        return "";
     }
 
     public function vlaser() {
