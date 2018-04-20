@@ -101,7 +101,7 @@
             //回调之后恢复正常，将disabled属性去掉
             $.get(url, function(data){
                 // todo
-            });
+            }, 'json');
         });
 
         // 提交表单
@@ -109,9 +109,9 @@
             event.preventDefault();
             var formData = $('form').serialize();
             // TODO: 请求后台接口跳转界面，前端跳转或者后台跳
-            console.log($('form').serialize());
-            location.href='index.html';
-
+            $.get("http://127.0.0.1:8811?s=index/Login/index&"+formData, function (data) {
+                console.log(formData);
+            }, 'json');
         });
 
         // 返回上一页

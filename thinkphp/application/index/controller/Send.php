@@ -16,7 +16,7 @@ class Send
 {
     // 发送验证码
     public function index() {
-        
+
         // 解决缓存问题
         // $phoneNum = request()->get('phone_num', 0, 'intval');
         $phoneNum = intval($_GET['phone_num']);
