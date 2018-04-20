@@ -7,3 +7,6 @@ dump.rdb
 
 # 项目无关文件
 project/
+
+# 本地测试文件
+test/
