@@ -12,4 +12,5 @@ return [
     'out_time' => 120,
     // 超时时间
     'timeOut' => 5,
+    'live_game_key' => 'live_game_key',
 ];

@@ -14,6 +14,8 @@ class Ws {
     public $ws = null;
 
     public function __construct() {
+        // todo 重启时将 redis 清空
+
         $this->ws = new swoole_websocket_server(self::HOST, self::PORT);
 
         $this->ws->set(
@@ -37,7 +39,9 @@ class Ws {
     }
 
     public function onOpen($ws, $request) {
-        //todo
+        // fd to redis
+        \app\common\lib\redis\Predis::getInstance()->sadd(config('redis.live_game_key'), $request->fd);
+        var_dump($request->fd);
     }
 
     public function onMessage($ws, $frame) {
@@ -103,7 +107,8 @@ class Ws {
     }
 
     public function onClose($ws, $fd) {
-        echo "clientid:{$fd}\n";
+        // delete fd from redis
+        \app\common\lib\redis\Predis::getInstance()->srem(config('redis.live_game_key'), $fd);
     }
 
     public function onTask($serv, $taskId, $workerId, $data) {
