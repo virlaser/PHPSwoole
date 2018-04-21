@@ -10,6 +10,7 @@ class Ws {
 
     CONST HOST = "0.0.0.0";
     CONST PORT = 8811;
+    CONST CHART_PORT = 8812;
 
     public $ws = null;
 
@@ -17,6 +18,7 @@ class Ws {
         // todo 重启时将 redis 清空
 
         $this->ws = new swoole_websocket_server(self::HOST, self::PORT);
+        $this->ws->listen(self::HOST, self::CHART_PORT, SWOOLE_SOCK_TCP);
 
         $this->ws->set(
             [

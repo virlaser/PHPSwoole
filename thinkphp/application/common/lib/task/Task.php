@@ -22,6 +22,7 @@ class Task {
     public function pushLive($data, $serv) {
         $clients = Predis::getInstance()->sMembers(config('redis.live_game_key'));
 
+        // TODO 聊天室和直播的端口数据有冲突
         foreach ($clients as $client) {
             $serv->push($client, json_encode($data));
         }
