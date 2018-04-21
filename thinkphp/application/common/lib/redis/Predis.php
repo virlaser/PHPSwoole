@@ -50,15 +50,16 @@ class Predis
         return $this->redis->get($key);
     }
 
-    public function sadd($key, $value) {
-        return $this->redis->sAdd($key, $value);
-    }
-
-    public function srem($key, $value) {
-        return $this->redis->sRem($key, $value);
-    }
-
     public function sMembers($key) {
         return $this->redis->sMembers($key);
+    }
+
+    // 魔术方法减少代码量
+    public function __call($name, $arguments) {
+        // TODO: Implement __call() method.
+        if(count($arguments) != 2) {
+            return '';
+        }
+        $this->redis->$name($arguments[0], $arguments[1]);
     }
 }
