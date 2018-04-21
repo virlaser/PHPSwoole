@@ -8,12 +8,23 @@
 
 namespace app\common\lib\task;
 
+use app\common\lib\redis\Predis;
+
 class Task {
 
-    public function sendSms($data) {
+    public function sendSms($data, $serv) {
         // 发送短信的逻辑
         // 如果发送成功，把验证信息记录到 redis 里面
         return true;
+    }
+
+    // 通过 task 机制发送赛况数据
+    public function pushLive($data, $serv) {
+        $clients = Predis::getInstance()->sMembers(config('redis.live_game_key'));
+
+        foreach ($clients as $client) {
+            $serv->push($client, json_encode($data));
+        }
     }
 
 }

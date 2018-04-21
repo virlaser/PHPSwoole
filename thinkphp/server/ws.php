@@ -117,7 +117,7 @@ class Ws {
         // 分发任务机制，让不同的任务走不同的程序，工厂模式
         $obj = new app\common\lib\task\Task;
         $method = $data['method'];
-        $flag = $obj->$method($data['data']);
+        $flag = $obj->$method($data['data'], $serv);
         return $flag;
     }
 
