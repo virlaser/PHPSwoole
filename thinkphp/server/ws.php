@@ -71,6 +71,13 @@ class Ws {
             }
         }
 
+        $_FILES = [];
+        if (isset($request->files)) {
+            foreach ($request->files as $k => $v) {
+                $_FILES[$k] = $v;
+            }
+        }
+
         $_POST = [];
         if (isset($request->post)) {
             foreach ($request->post as $k => $v) {
