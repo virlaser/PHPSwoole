@@ -51,8 +51,8 @@ class Ws {
     }
 
     public function onWorkerStart($server, $worker_id) {
-        define('APP_PATH', __DIR__ . '/../application/');
-        require __DIR__ . '/../thinkphp/start.php';
+        define('APP_PATH', __DIR__ . '/../../../application/');
+        require __DIR__ . '/../../../thinkphp/start.php';
     }
 
     public function onRequest($request, $response) {
@@ -130,3 +130,5 @@ class Ws {
 }
 
 new Ws();
+
+// lsof -i:8811 或者定时任务 crontab => swoole 定时器来监控服务

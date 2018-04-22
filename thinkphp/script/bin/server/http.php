@@ -34,9 +34,9 @@ class http {
     }
 
     public function onWorkerStart($server, $worker_id) {
-        define('APP_PATH', __DIR__.'/../application/');
+        define('APP_PATH', __DIR__ . '/../../../application/');
         // require __DIR__.'/../thinkphp/base.php';
-        require __DIR__.'/../thinkphp/start.php';
+        require __DIR__ . '/../../../thinkphp/start.php';
     }
 
     public function onRequest($request, $response) {
