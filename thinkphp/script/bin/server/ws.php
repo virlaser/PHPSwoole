@@ -29,6 +29,7 @@ class Ws {
             ]
         );
 
+        $this->ws->on("start", [$this, 'onStart']);
         $this->ws->on("workerstart", [$this, 'onWorkerStart']);
         $this->ws->on("open", [$this, 'onOpen']);
         $this->ws->on("message", [$this, 'onMessage']);
@@ -38,6 +39,10 @@ class Ws {
         $this->ws->on("finish", [$this, 'onFinish']);
 
         $this->ws->start();
+    }
+
+    public function onStart($server) {
+        swoole_set_process_name("live_master");
     }
 
     public function onOpen($ws, $request) {
@@ -156,3 +161,5 @@ new Ws();
 // lsof -i:8811 或者定时任务 crontab => swoole 定时器来监控服务
 
 // 20台机器 agent->spark(计算)->数据库 elasticsearch 来存储分析数据
+
+// sigterm sigusr1 usr2 用来实现平滑重启
