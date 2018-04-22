@@ -57,6 +57,13 @@ class Ws {
 
     public function onRequest($request, $response) {
 
+        // 防止请求 /favicon.ico 浪费资源，直接拦截 404
+        if($request->server['request_uri'] == '/favicon.ico') {
+            $response->status(404);
+            $response->end();
+            return '';
+        }
+
         $_SERVER = [];
         if (isset($request->server)) {
             foreach ($request->server as $k => $v) {
@@ -90,6 +97,8 @@ class Ws {
                 $_POST[$k] = $v;
             }
         }
+
+        $this->writeLog();
 
         // 可以直接在外面调用 onTask 处理耗时任务
         $_POST['http_server'] = $this->ws;
@@ -127,8 +136,23 @@ class Ws {
         echo "taskId:{$taskId}\n";
         echo "finish-data-success:{$data}\n";
     }
+
+    // 记录日志
+    public  function writeLog() {
+        $datas = array_merge(['data' => date("Ymd H:i:s")], $_GET, $_POST, $_SERVER);
+        $logs = "";
+        foreach($datas as $key => $value) {
+            $logs .= $key.":".$value." ";
+        }
+
+        swoole_async_writefile(APP_PATH.'../runtime/log/'.date("Ym").'/'.date("d").'_access.log', $logs.PHP_EOL, function (){
+            // todo
+        }, FILE_APPEND);
+    }
 }
 
 new Ws();
 
 // lsof -i:8811 或者定时任务 crontab => swoole 定时器来监控服务
+
+// 20台机器 agent->spark(计算)->数据库 elasticsearch 来存储分析数据
