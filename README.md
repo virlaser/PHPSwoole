@@ -2,6 +2,19 @@
 
 本项目是对 PHP 和 Swoole 的学习。从源码编译 PHP 和 Swoole 开始，到使用 PHP 和 Swoole 建立一个完整的项目结束。
 
+```
+PHPSwoole
+    demo
+    nginx
+    php
+    thinkphp
+
+demo:关于 Swoole 的一些使用示例
+nginx:源码编译的 nginx
+php:源码编译的 php ，集成了源码编译的 Swoole ，以及源码编译的 phpredis
+thinkphp:ThinkPHP 框架
+```
+
 ## 源码编译安装
 [PHP 与 Swoole 的源码安装](https://zhuanlan.zhihu.com/p/35758801)
 
@@ -29,6 +42,8 @@
 # 项目实战——赛事直播
 
 本实战项目涉及到 PHP、Swoole、ThinkPHP 等技术，最终搭建的成品为一个赛事直播平台。
+本项目 demo 如下：
+![示例](https://raw.githubusercontent.com/virlaser/PHPSwoole/master/images/demo.png)
 
 ## 登录模块
 * ThinkPHP 开发环境部署
@@ -51,6 +66,10 @@
 * 聊天室功能的开发
 
 ## 系统监控和性能优化模块
-* （待续）
+* 服务监控
+* 日志落盘
+* 请求过滤
+* 服务平滑重启
+* 负载均衡
 
 
